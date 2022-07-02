@@ -1,0 +1,127 @@
+from craigslistworker import domain
+from app.models import *
+import req
+from bs4 import BeautifulSoup
+from page import details, htmls
+from datetime import date, datetime
+from device import random_device
+import re
+docstring = htmls.docstring
+details = details.details
+end_loop = 3
+
+class CraigslistSearches:
+    """docstring for CraigslistSearches."""
+
+    def __init__(self, domain_get=None, city='minneapolis', save_html=False, proxies=None, verify=None, stop_at=end_loop):
+        super(CraigslistSearches, self).__init__()
+        if domain_get is  None:
+            self.soup = BeautifulSoup(docstring, 'html.parser').find_all(class_='result-info')
+        else:
+            self.page = req.requests.get(
+                url=domain_get,
+                proxies=proxies,
+                verify=verify,
+                headers=random_device()
+            )
+            req.urllibinsecure
+            self.soup = BeautifulSoup(self.page.content, 'html.parser').find_all(class_='result-info')[:stop_at]
+            print(f'This page says {self.page}')
+
+        self.save_html = save_html
+        self.city = city
+        self.proxies = proxies
+        self.verify = verify
+        if self.save_html:
+            with open(f'page/{datetime.now()}_{self.city}.py', 'w') as f:
+                f.write(self.page.text)
+
+    def post_id(self):
+        return [i.find(class_='result-title hdrlnk')['id'] for i in self.soup]
+
+    def paginator(self):
+        return len(self.soup)
+
+    def price(self):
+        return [i.find(class_='result-price').text for i in self.soup]
+
+    def title(self):
+        return [i.find(class_='result-heading').text for i in self.soup]
+
+    def ad_href(self):
+        return [i.find('a').get('href') for i in self.soup]
+
+    def date(self):
+        time = [i.find(class_='result-date') for i in self.soup]
+        time = [str(i).replace(
+        '<time class="result-date" datetime="',
+        '').replace(
+        'title=',
+        '').replace('<',
+         '').replace(
+         '/time>',
+         '') for i in time]
+        return [re.split(r'"|,|\>', s)[0] for s in time]
+
+    def location(self):
+        return [i.find(class_='result-hood').text for i in self.soup]
+
+
+    def posting_details_per_item(self, urls):
+        """
+        Retuns an array of all the Posting Details and Description in an array.
+        """
+
+        posting_details = []
+        description = []
+        image_url = []
+
+        for url in [urls]:
+            print(f'Running loops for {len([urls])} url1:{urls}')
+            ad_page = req.requests.get(
+            urls, proxies=self.proxies,
+            verify=self.verify,
+            headers=random_device(),
+            )
+            req.urllibinsecure
+
+            print(f'Details page says {ad_page}')
+
+            soup = BeautifulSoup(ad_page.content, 'html.parser')
+            #print(soup)
+
+            ad_info = soup.select('span')
+            data = []
+            unorganized_data_info = []
+
+            map_url = soup.find('p', class_='mapaddress').a['href']
+            tags = soup.find_all(class_='attrgroup')[1:]
+            tags = [i.text.split(' ') for i in tags]
+
+            for info in ad_info:  # only keep elements that don't have a 'class' or 'id' attribute
+                if not (info.has_attr('class') or info.has_attr('id')):
+                    data.append(info)
+
+            for d in data:
+                unorganized_data_info.append(d.text.split(': '))
+
+            description_raw = soup.find_all(id='postingbody')
+
+            for item in description_raw:
+                unfiltered = item.get_text(strip=True)
+                description.append(unfiltered.strip('QR Code Link to This Post'))
+
+            posting_details.append(unorganized_data_info)
+            images = soup.find_all('img')
+            for img in images:
+                if img.has_attr('src'):
+                    image_url.append(img['src'])
+
+            print(description)
+
+        return {
+            'tags': posting_details[0][1:],
+            'image_url': image_url,
+            'description': description[0],
+            'map_url': map_url
+        }

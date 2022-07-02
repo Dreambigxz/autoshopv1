@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+	<head>
+	<!-- Basic Page Needs -->
+    <meta charset="utf-8">
+    <title>car</title>
+
+	<!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link type="image/x-icon" href="{% static 'images/fav-icon.png' %}" rel="icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/car.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142494086-2"></script>
+    <!-- <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-142494086-52');
+    </script> -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	</head>
+  <body>
+    <!-- Start preloader -->
+    <div id="preloader"></div>
+    <!-- End preloader -->
+    <!-- Search Screen start -->
+    <div class="sidebar-search-wrap">
+        <div class="sidebar-table-container">
+          <div class="sidebar-align-container">
+              <div class="search-closer right-side"></div>
+              <div class="search-container">
+                <form method="get" id="search-form">
+                  <input type="text" id="ds" class="search-input" name="s" placeholder="Start Searching">
+                </form>
+                <span>Search and Press Enter</span>
+              </div>
+          </div>
+        </div>
+    </div>
+    <!-- Search Screen end -->
+
+		<div class="overlay"></div>
+		<div class="spanner">
+		  <div class="loader"></div>
+		  <!-- <p>Uploading music file, please be patient.</p> -->
+		</div>
+
+		<div id="loading-overlay">
+    <div class="loading-icon"></div>
+			
+		</div>
+
+		<style media="screen">
+
+
+				.wrapper{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 300px;
+				text-align:center;
+				transform: translateX(-50%);
+				}
+
+				.spanner{
+				position:absolute;
+				top: 50%;
+				left: 0;
+				background: transparent;
+				width: 100%;
+				display:block;
+				text-align:center;
+				height: 300px;
+				color: #FFF;
+				transform: translateY(-50%);
+				z-index: 1000;
+				visibility: hidden;
+				}
+
+				.overlay{
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.5);
+				visibility: hidden;
+				}
+
+				.loader,
+				.loader:before,
+				.loader:after {
+				border-radius: 50%;
+				width: 2.5em;
+				height: 2.5em;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+				-webkit-animation: load7 1.8s infinite ease-in-out;
+				animation: load7 1.8s infinite ease-in-out;
+				}
+				.loader {
+				color: #de8398;
+				font-size: 10px;
+				margin: 80px auto;
+				position: relative;
+				text-indent: -9999em;
+				-webkit-transform: translateZ(0);
+				-ms-transform: translateZ(0);
+				transform: translateZ(0);
+				-webkit-animation-delay: -0.16s;
+				animation-delay: -0.16s;
+				}
+				.loader:before,
+				.loader:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				}
+				.loader:before {
+				left: -3.5em;
+				-webkit-animation-delay: -0.32s;
+				animation-delay: -0.32s;
+				}
+				.loader:after {
+				left: 3.5em;
+				}
+				@-webkit-keyframes load7 {
+				0%,
+				80%,
+				100% {
+					box-shadow: 0 2.5em 0 -1.3em;
+				}
+				40% {
+					box-shadow: 0 2.5em 0 0;
+				}
+				}
+				@keyframes load7 {
+				0%,
+				80%,
+				100% {
+					box-shadow: 0 2.5em 0 -1.3em;
+				}
+				40% {
+					box-shadow: 0 2.5em 0 0;
+				}
+				}
+
+				.show{
+				visibility: visible;
+				}
+
+				.spanner, .overlay{
+				opacity: 0;
+				-webkit-transition: all 0.3s;
+				-moz-transition: all 0.3s;
+				transition: all 0.3s;
+				}
+
+				.spanner.show, .overlay.show {
+				opacity: 1
+				}
+
+				#loading-overlay {
+		    position: absolute;
+		    width: 100%;
+		    height:100%;
+		    left: 0;
+		    top: 0;
+		    display: none;
+		    align-items: center;
+		    background-color: #000;
+		    z-index: 999;
+		    opacity: 0.5;
+				}
+				.loading-icon{ position:absolute;border-top:2px solid #fff;border-right:2px solid #fff;border-bottom:2px solid #fff;border-left:2px solid #767676;border-radius:25px;width:25px;height:25px;margin:0 auto;position:absolute;left:50%;margin-left:-20px;top:50%;margin-top:-20px;z-index:4;-webkit-animation:spin 1s linear infinite;-moz-animation:spin 1s linear infinite;animation:spin 1s linear infinite;}
+				@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+				@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+				@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+		</style>
+
+
+    <div class="main">
+      <!-- Header start -->
+      <header id="header">
+        <div class="container">
+          <div class="row m-0">
+            <div class="col-lg-3 col-md-4 col-4 p-0">
+                    <div class="navbar-header">
+                        <a class="navbar-brand page-scroll" href="/">
+                          <img alt="car" src="{% static 'images/logo.jpg' %}">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-8 p-0">
+                  <div class="right-side">
+                    <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle d-block d-lg-none d-xl-none" type="button"><i class="fa fa-bars"></i>
+                    </button>
+                    <div class="overlay"></div>
+                    <div id="menu" class="navbar-collapse collapse" >
+                          <ul class="nav navbar-nav">
+                            <li class="level">
+                                <a href="/" class="nav-link">Home</a>
+                            </li>
+														<li class="level">
+                                <a href="/" class="nav-link">About us</a>
+                            </li>
+														<li class="level">
+                                <a href="/" class="nav-link">Contact us</a>
+                            </li>
+
+                          </ul>
+                      </div>
+                      <div class="header-right-link">
+                        <ul>
+                          <li class="search-box">
+                            <a href="#"><span></span></a>
+                          </li>
+                          <li class="account-icon">
+                            <a href="#"><span></span></a>
+
+                          </li>
+                          <li class="cart-icon">
+                            <a href="#"> <span> <small class="cart-notification">0</small> </span> </a>
+
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+          </div>
+        </div>
+      </header>
+      <!-- Header end -->
+
+  {% block body %}
+  {% endblock %}
+
+  <!-- Newslatter section start -->
+  <section class="newsletter-section align-center ptb-100">
+          <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-9 col-12">
+                        <div class="newsletter-title">
+                            <h2 class="main_title">Sign up for Newsletter </h2>
+                            <p>Wants to get latest updates! sign up for Free </p>
+                        </div>
+                        <div class="newsletter-input">
+                            <form>
+                                <div class="form-group m-0">
+                                    <input type="email" placeholder="Your email address" required="">
+                                </div>
+                                <button type="submit" class="btn btn-color"><span class="d-none d-sm-block">Subscribe</span> <i class="fa fa-send d-block d-sm-none"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+          </div>
+      </section>
+      <!-- Newslatter section end -->
+
+  <!-- Footer section start -->
+  <footer class="footer-part">
+    <div class="container">
+      <div class="footer-top ptb-100">
+        <div class="mb_-30">
+          <div class="row">
+            <div class="col-12 col-lg-4 col-md-6">
+              <div class="footer-about mb-sm-30">
+                <div class="footer-logo">
+                  <a href="/">
+                    <img src="{% static 'images/logo.jpg' %}" alt="logo">
+                  </a>
+                </div>A short description about the company <a href="#">Read more</a> </p>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4 col-md-6">
+              <div class="footer-static-block">
+                <span class="opener plus"></span>
+                <h3 class="head-three">Information</h3>
+                <ul class="footer-menu footer-block-contant">
+                  <li><a href="contact.html">Contact Us</a></li>
+                  <li><a href="javascript:void(0)">Brands</a></li>
+                  <li><a href="blog-left-col.html">Blog</a></li>
+                  <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4 col-md-6">
+              <div class="footer-static-block">
+                <span class="opener plus"></span>
+                <h3 class="head-three">Contact us</h3>
+                <div class="contact-box footer-block-contant">
+                          <ul>
+                            <li>
+                              <div class="contact-thumb">
+                                <img src="{% static 'images/address-icon.svg' %}" alt="car">
+                              </div>
+                              <div class="contact-box-detail">
+                                <p>Your address - USA</p>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="contact-thumb">
+                                <img src="{% static 'images/phone-icon.svg' %}" alt="car">
+                              </div>
+                              <div class="contact-box-detail">
+                                <p>+1 tele</p>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="contact-thumb">
+                                <img src="{% static 'images/mail-icon.svg' %}" alt="car">
+                              </div>
+                              <div class="contact-box-detail">
+                                <p>car@hi123.com</p>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom align-center">
+        <div class="row">
+          <div class="col-12">
+            <div class="w-100">
+              <p class="mb-0">© car all Rights Reserverd theme by
+                <a href="/">
+                CarX
+              </a>
+              </p>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="social-media">
+              <ul>
+                <li><a href="javascript:void(0)"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="javascript:void(0)"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="javascript:void(0)"><i class="fa fa-youtube"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer section end -->
+</div>
+{% include 'include/js.html'%}
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script> -->
+<script src="{% static 'js/modernizr.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block body %}
+			<!-- Product list contant start -->
+			      <div class="contant ">
+
+			        </div>
+			        <div class="ptb-100">
+			          <div class="container">
+			            <div class="row">
+			              <!-- {% include 'include/sidebar.html' %} -->
+			              <div class="col-12 col-lg-12 col-xl-12">
+			                <div class="shorting mb-50">
+			                        <div class="row">
+			                          <div class="col-lg-6">
+			                            <div class="view">
+			                              <div class="list-types grid active "> <a href="#">
+			                                <div class="grid-icon list-types-icon"></div>
+			                                </a> </div>
+																			<p class="display-message"></p>
+			                              <div class="list-types list"> <a href="#">
+			                                <div class="list-icon list-types-icon"></div>
+			                                </a> </div>
+			                            </div>
+			                            <div class="short-by float-right-md"> <span>Showing <span>{{current_page.number}} of {{current_page.number}}</span> </span>
+			                            </div>
+			                          </div>
+			                          <div class="col-lg-6">
+			                            <div class="show-item right-side float-left-md"> <span>Filter</span>
+
+																		<div class="select-item">
+			                                <select class="searches" id="area" name="area">
+																				<option disabled='disabled' selected="selected">Sf Bay Area</option>
+																				{% for key, value in citits.items %}
+			                                  <option value="{{key}}">{{value|title}}</option>
+			                       					{% endfor %}
+			                                </select>
+			                              </div>
+
+
+			                              <div hidden=hidden  id="sfbayareaSerches" class="compare float-right-sm">
+																			<select class="searches" name="sfbayarea" id="sfbayarea">
+ 			                                  <option value="" disabled='disabled' selected="selected">all Sf Bay Area</option>
+																					{% for key, value in sfbay.items %}
+																						 <option class="sfbayarea" value="{{key}}">{{value|title}}</option>
+																					{% endfor %}
+ 			                                </select>
+																	</div>
+			                            </div>
+			                          </div>
+			                        </div>
+			                    </div>
+			                <div class="product-section grid-view">
+			                  <div class="row">
+															{% for car in object_list %}
+			                            <div class="col-lg-4 col-md-4 col-6">
+			                              <div class="product-item">
+			                                <div class="product-image">
+			                                  <div class="sale-label"><span>{{car.datetime|timesince}}</span></div>
+			                                  	<a href="{{car.get_absolute_url}}">
+																								<img style="
+																										height: 150px;
+																										width: 100%;
+																										object-fit: contain;
+																										border: 2 solid #000;
+																										outline: none;
+																										transition: all 0.4s ease 0s;
+																										-moz-transition: all 0.4s ease 0s;
+																										-webkit-transition: all 0.4s ease 0s;
+																										-o-transition: all 0.4s ease 0s;
+																								"src="{{car.first_image}}" alt="Car">
+																							<style media="screen">
+																								div .sale-label {
+																									top: -22px;
+																									border: 5px;
+																									font-size: 10px;
+																									color: #fff;
+																									}
+																								</style>
+
+			                                  </a>
+			                                </div>
+			                                <div class="product-details-outer">
+			                                  <div class="product-details">
+			                                    <div class="product-title">
+			                                      <a href="{{car.get_absolute_url}}">{{car.title|title}}</a>
+			                                    </div>
+			                                    <div class="price-box">
+			                                      <span class="price">{{car.price_string}}</span> <br>
+			                                      <p class="price old-price">{% if car.location is not None %}{{car.location|truncatechars:15}} {% endif%}
+																							<span>	<a class="text-success" style="font-size:12px" href="{{car.post_url}}">open source</a></span>
+																						</p>
+																						<div class="odometer">
+																							odometer: <span>{{car.display_odometer}}
+																							</span>
+																						</div>
+
+																				  </div>
+			                                  </div>
+
+			                                </div>
+			                              </div>
+			                            </div>
+																{% endfor %}
+			                          </div>
+			                </div>
+
+											<ul class="pagination justify-content-center my-5">
+												  {% if current_page.has_previous %}
+												  <!-- 'First' and 'Previous' Buttons -->
+												    <li class="page-item">
+												      <a class="page-link" href="?page=1">|&lt; First</a>
+												    </li>
+												    <li class="page-item">
+												      <a class="page-link" href="?page={{ current_page.previous_page_number }}">&lt; Previous</a>
+												    </li>
+												  {% endif %}
+
+												  <!-- Numbered Buttons -->
+												  {% for page in paginator.page_range %}
+												    {% if current_page.number == page %}
+												      <li class="page-item">
+												        <a class="page-link" href="?page={{ page }}"><strong><u>{{ page }}</u></strong></a>
+												      </li>
+												    {% elif page > current_page.number|add:'-3' and page < current_page.number|add:'3' %}
+												      <li class="page-item">
+												        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+												      </li>
+												    {% endif %}
+												  {% endfor %}
+
+												  <!-- 'Next' and 'Last' Buttons -->
+												  {% if current_page.has_next %}
+												    <li class="page-item">
+												      <a class="page-link"
+												        href="?page={{ current_page.next_page_number }}">Next &gt;</a>
+												    </li>
+												    <li class="page-item">
+												      <a class="page-link" href="?page={{ current_page.paginator.num_pages }}">Last &gt;|</a>
+												    </li>
+												  {% endif %}
+												</ul>
+			                <!-- <div class="shorting center-md">
+			                        <div class="row">
+			                          <div class="col-lg-6">
+			                            <div class="pagination-bar">
+																		{% for car in  object_list %}
+			                                	<ul>
+																			{% if car.has_previous %}
+			                                  <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+																			{% endif %}
+			                                  <li class="active"><a href="#">1</a></li>
+			                                  <li><a href="#">2</a></li>
+			                                  <li><a href="#">3</a></li>
+																				{% if car.has_next %}
+			                                  	<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+																				{% endif %}
+			                                </ul>
+																			{% endfor %}
+			                              </div>
+			                          </div> -->
+			                          <div class="col-lg-6">
+			                            <div class="show-item right-side float-none-md">
+			                              	<span class="float-none-md d-block"> {{current_page.number}} of {{current_page.paginator.num_pages}}</span>
+																	</div>
+			                          </div>
+			                        </div>
+			                    </div>
+
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			<!-- Product list contant end -->
+			<!-- css -->
+			<style media="screen">
+			.shorting {
+						background: #f5f5f5;
+						padding: 15px;
+						margin-top: 42px !important;
+						margin-bottom: 62px !important;
+					}
+					.odometer {
+			    text-align: right;
+			    float: right;
+			    background: #560014;
+			    padding-right: 5px;
+			    padding-left: 5px;
+			    color: #fff;
+			    margin-top: -15px;
+			    margin-bottom: 3em;
+			}
+				// Medium devices (tablets, less than 992px)
+					@media (max-width: 991.98px) {.shorting {
+								background: #f5f5f5;
+								padding: 15px;
+								margin-top: 42px !important;
+								margin-bottom: 62px !important;
+						}}
+
+					// Large devices (desktops, less than 1200px)
+					@media (max-width: 1199.98px) {.shorting {
+								background: #f5f5f5;
+								padding: 15px;
+								margin-top: 42px !important;
+								margin-bottom: 62px !important;
+						}}
+
+					// X-Large devices (large desktops, less than 1400px)
+					@media (max-width: 1399.98px) {.shorting {
+								background: #f5f5f5;
+								padding: 15px;
+								margin-top: 42px !important;
+								margin-bottom: 62px !important;
+						} } */
+			</style>
+
+
+{% endblock %}

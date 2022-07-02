@@ -1,0 +1,158 @@
+{% extends  'app/base.html'%}
+{% load static %}
+
+{% block body %}
+
+			<!-- Product list contant start -->
+			<div class="contant">
+				<div id="banner-part" class="banner inner-banner">
+					<div class="container">
+						<div class="bread-crumb-main">
+							<h1 class="banner-title"></h1>
+							<!-- <div class="breadcrumb">
+			                    <ul class="inline">
+			                        <li><a href="index.html">Home</a></li>
+			                        <li>Shop</li>
+			                    </ul>
+			                </div> -->
+		                </div>
+					</div>
+				</div>
+				<div class="ptb-100">
+					<div class="container">
+						<div class="row">
+							{% include 'include/sidebar.html'}
+							<div class="col-12 col-lg-8 col-xl-9">
+								<div class="shorting mb-30">
+						            <div class="row">
+						              <div class="col-lg-6">
+						                <div class="view">
+						                  <div class="list-types grid active "> <a href="#">
+						                    <div class="grid-icon list-types-icon"></div>
+						                    </a> </div>
+						                  <div class="list-types list"> <a href="#">
+						                    <div class="list-icon list-types-icon"></div>
+						                    </a> </div>
+						                </div>
+						                <div class="short-by float-right-md"> <span>Sort By</span>
+						                  <div class="select-item">
+						                    <select>
+						                      <option value="" selected="selected">Name (A to Z)</option>
+						                      <option value="">Name(Z - A)</option>
+						                      <option value="">price(low&gt;high)</option>
+						                      <option value="">price(high &gt; low)</option>
+						                      <option value="">rating(highest)</option>
+						                      <option value="">rating(lowest)</option>
+						                    </select>
+						                  </div>
+						                </div>
+						              </div>
+						              <div class="col-lg-6">
+						                <div class="show-item right-side float-left-md"> <span>Show</span>
+						                  <div class="select-item">
+						                    <select>
+						                      <option value="" selected="selected">24</option>
+						                      <option value="">12</option>
+						                      <option value="">6</option>
+						                    </select>
+						                  </div>
+						                  <span>Per Page</span>
+						                  <div class="compare float-right-sm"> <a href="#" class="btn btn-color">Compare (0)</a> </div>
+						                </div>
+						              </div>
+						            </div>
+						        </div>
+
+										<style media="screen">
+
+										</style>
+								<div class="product-section grid-view">
+									<div class="row">
+													{% for car in object_list %}
+					                	<div class="col-lg-4 col-md-4 col-6 id=product_id{{car.id}}">
+					                		<div class="product-item">
+					                			<div class="product-image">
+						                			<div class="sale-label"><span>Sale</span></div>
+		                							<div class="new-label"><span>New</span></div>
+																	<a href="#">
+																		{% if not car.image is None %}
+																			<img src="{{car.image.url}}" alt="Xpoge">
+
+																		{% else %}
+																		<img src="" alt="No image found">
+																		{% endif %}
+						                			</a>
+					                			</div>
+					                			<div class="product-details-outer">
+						                			<div class="product-details">
+						                				<div class="product-title">
+						                					<a href="{{car.get_absolute_url}}">{{car.title}}</a>
+						                				</div>
+						                				<div class="price-box">
+						                					<span class="price">{{car.price_string}}</span><br>
+						                					<small class="time">{{car.datetime|timesince}} ago</small>
+						                				</div>
+						                			</div>
+						                			<!-- <div class="product-details-btn">
+						                				<ul>
+						                					<li class="icon cart-icon">
+						                						<a href="cart.html">
+						                							<span></span>
+						                						</a>
+						                					</li>
+						                					<li class="icon wishlist-icon">
+						                						<a href="wishlist.html">
+						                							<span></span>
+						                						</a>
+						                					</li>
+						                					<li class="icon compare-icon">
+						                						<a href="#">
+						                							<span></span>
+						                						</a>
+						                					</li>
+						                				</ul>
+						                			</div> -->
+					                			</div>
+					                		</div>
+					                	</div>
+													{% endfor %}
+					                </div>
+								</div>
+								<div class="shorting center-md">
+						            <div class="row">
+						              <div class="col-lg-6">
+						                <div class="pagination-bar">
+					                      <ul>
+					                        <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+					                        <li class="active"><a href="#">1</a></li>
+					                        <li><a href="#">2</a></li>
+					                        <li><a href="#">3</a></li>
+					                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+					                      </ul>
+					                    </div>
+						              </div>
+						              <div class="col-lg-6">
+						                <div class="show-item right-side float-none-md">
+						                	<span class="float-none-md d-block">Showing 1 to 15 of 15 (1 Pages)</span>
+						                </div>
+						              </div>
+						            </div>
+						        </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Product list contant end -->
+{% endblock %}
+
+<style media="screen">
+			// Medium devices (tablets, less than 992px)
+		@media (max-width: 991.98px) { ... }
+
+		// Large devices (desktops, less than 1200px)
+		@media (max-width: 1199.98px) { ... }
+
+		// X-Large devices (large desktops, less than 1400px)
+		@media (max-width: 1399.98px) { ... }
+</style>

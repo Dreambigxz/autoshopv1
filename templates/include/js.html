@@ -1,0 +1,248 @@
+{% load static %}
+<script type="text/javascript">
+$(document).ready(function () {
+
+  // $('.success').css('background', '{{success}}')
+  //  $('.pending').css('background', '{{info}}')
+  //  $('.failed').css('background', '{{error}}')
+
+        //initialize all variables
+        var a_naira_to_usd = parseFloat('{{a_naira_to_usd}}')
+        var a_usd_to_naira = parseFloat('{{a_naira_to_usd}}')
+
+//
+// set users default currency to usd
+function getSelectedOption(id=null) {
+    $( `select#${id}`).change(function(){
+          var selected = $(this).children("option:selected").text();
+          // var selected $('#bankname').val(bank_name)
+            return selected
+      });
+}
+// function to remove str from number
+function RemoveStr(obj) {
+  return obj.replace(/[^\d.-]/g, ''); // gives "-12345.50"
+}
+const formatToCurrency = amount => {
+  return amount.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+};
+// function to convert currencies
+// copy to copyToClipboard
+function copyToClipboard(text) {
+    var sampleTextarea = document.createElement("textarea");
+    document.body.appendChild(sampleTextarea);
+    sampleTextarea.value = text; //save main text in it
+    sampleTextarea.select(); //select textarea contenrs
+    document.execCommand("copy");
+    document.body.removeChild(sampleTextarea);
+}
+$('.CopyInviteLink').on('click', function functionName() {
+  var copyText = $('#invite_link').val();
+  copyToClipboard(copyText)
+  alert(`${copyText} copied`)
+})
+$("form").submit(function (e) {
+      $(this).attr("disabled", true);
+      //disable a normal button
+      $("button").attr("disabled", true);
+      return true;
+});
+
+ $(function () {
+  PageFunction_1();
+
+});
+
+function PageFunction_1(){
+  $(".searches").each(function() {
+    $(this).change(function functionName() {
+      var selected = $(this).children('option:selected').val()
+      search_id= $(this).attr('id')
+
+      console.log(search_id);
+      // var reset_currency = localStorage.setItem('currency', selected)
+      if (selected === 'sfbay' && search_id == 'area') {
+        $("div#sfbayareaSerches").attr('hidden', false)
+        send_request = false
+      }else if (true) {
+          search_id == 'sfbayarea'
+          $("div#sfbayareaSerches").attr('hidden', false)
+          send_request = true
+      }else {
+                $("div#sfbayareaSerches").attr('hidden', true)
+                send_request = true
+          }
+
+
+        if (send_request == true) {
+          $.ajax({
+              url:'{% url "search-data" %}',
+              type : "get",
+              data: {'option':selected},
+              async : true,
+              success : function(data) {
+                      //load data to html divs
+                    window.location.replace(data);
+              },
+            beforeSend: function (XMLHttpRequest) {
+              XMLHttpRequest.setRequestHeader("Accept", "application/json");
+              // $("div.spanner").addClass("show");
+              // $("div.overlay").addClass("show");
+              $("#loading-overlay").show();
+
+            },
+          complete: function () {
+            setTimeout(function(){
+              // $("div.spanner").removeClass("show");
+              // $("div.overlay").removeClass("show");
+              $("#loading-overlay").hide();
+
+            },500);
+          },
+          error: function(){
+            $('.display-message').text('We could not process the request at the moment, please try again').addClass('text-danger')
+          }
+          });
+        }
+    })
+
+    })
+
+
+  }
+
+//
+// const img = document.getElementById('img');
+// const src = img.getAttribute('src');
+// forEach((scr, i) => {
+//   if (!src) {
+//     console.log('img src is empty');
+//   } else {
+//     console.log('img src is NOT empty');
+//   }
+// });
+
+var defaultImgTo = "{%static 'carimagedefault/default.jpg' %}"
+
+function ImageExist(url, id=null) {
+    var img = new Image();
+    img.src = url;
+    if (img.height != 0) {
+        return false;
+    } else {
+        return true ;
+        // $(`#${id}`).attr('src', 'defaultImgTo')
+    }
+
+}
+
+
+$('.check-image').each(function functionName() {
+  var image_url = ($(this).attr('src'));
+  does_not_exist = ImageExist(image_url)
+  if (does_not_exist == true) {
+    $(this).attr('src', defaultImgTo)
+  }
+})
+
+
+// set users default currency to usd
+// if (localStorage.getItem('currency') == null) {
+//   var default_currency = localStorage.setItem('currency', '$')
+//   document.cookie = 'currency=$'
+// }
+// on select currency reset currency
+// $('select#select-currency').change(function () {
+//   var selected = $(this).children('option:selected').val()
+//   var reset_currency = localStorage.setItem('currency', selected)
+//   document.cookie = `currency=${selected}`
+//   window.location.reload()
+// })
+//after load page check and set user currency
+// $('select#select-currency').val(localStorage.currency)
+// CurrencyConverter(localStorage.currency)
+// document.cookie = `currency=${localStorage.currency}`
+// //calculating plan
+// var plan_profit = {
+//     'gold': {
+//       'percent':30,
+//       'max-min':`${CurrencyConverterAmount(5000)} - ${CurrencyConverterAmount(200000)}`
+//     },
+//     "diamond":{
+//       'percent':50,
+//       'max-min':`${CurrencyConverterAmount(50000)} - ${CurrencyConverterAmount(500000)}`
+//     }
+// }
+// $('select#select-plan').change(function(){
+//       var selected = $(this).children("option:selected").val();
+//     $('#invest_amount').val('').attr('placeholder', plan_profit[selected]['max-min'])
+//   });
+// $('#invest_amount').on('keyup', function functionName() {
+//   var plan = $('select#select-plan').children("option:selected").val()
+//   var amount = parseInt($(this).val())
+//   var total_profit = plan_profit[plan]["percent"]*amount/100+' plus capital'
+//   if (plan == "") {
+//     $('#profit_amount').val("Please select plan").css({
+//     'color': 'red'
+// })
+//
+//   }else {
+//     $('#profit_amount').val(total_profit)
+// }
+// })
+//disable form when sending data
+
+// $('.awaiting-payment').each(function(index) {
+//   var check_flw = '{{admincontrol.flw_active}}'
+//   $(this).on('click', function(){
+//     var investment_id = $(this).attr('id');
+//     console.log(check_flw);
+//     if (localStorage.currency == '₦' && check_flw == 'True') {
+//       $.ajax({
+//         'url':'/process-deposit',
+//         'type':'get',
+//         'data': {
+//           'plan_id': investment_id
+//         },
+//         beforeSend: function() {
+//           $(this).text('loading');
+//         },
+//         complete: function() {
+//           $('.body').css('reset');
+//         },
+//         success: function(json) {
+//             if (json['mess'] == 'success') {
+//               setTimeout(function() {
+//                 window.location.href =  json['link'];
+//               }, 200);
+//             }else {
+//               $('#messagesid').text(json['mess'])
+//           }
+//         },
+//         error: function (json) {
+//           $('.messages').text('An error occured, please try again or contact site administrator')
+//         }
+//       })
+//     }
+//     else {
+//       $('#plan_id').val(investment_id)
+//       $('#UploadPayment').modal('show')
+//     }
+//
+//   })
+// })
+//
+// //DOM CSS
+// $('.mess4withdraw').hide()
+// var withdrawable_balance = $('#withdrawable_balance')
+// if (parseInt(RemoveStr(withdrawable_balance.text())) <= CurrencyConverterAmount(4900)) {
+//   $('button.withrawBtn').attr('disabled', true).css(
+//   'opacity', '0.4',
+//   )
+//   $('.mess4withdraw').show()
+// }
+//
+
+});
+
+</script>

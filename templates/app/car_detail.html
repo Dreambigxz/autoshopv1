@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+{% extends  'app/base.html'%}
+{% load static %}
+{% block body %}
+			<!-- Product detail contant start -->
+			<div class="contant">
+				<div id="banner-part" class="banner inner-banner">
+					<div class="container">
+						<div id="banner-part" class="banner inner-banner">
+							<div class="container">
+								<div class="bread-crumb-main">
+									<h1 class="banner-title">{{data.title}}</h1>
+									<p>{{data.datetime}} | {{data.location}}</p>
+									<div class="breadcrumb">
+												<ul class="inline">
+														<li><a href="/">Go back</a></li>
+														<li>{{title.datetime}}</li>
+												</ul>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ptb-100">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-5 col-md-6 col-12">
+								<div class="align-center mb-md-30">
+					                <ul id="glasscase" class="gc-start">
+
+																<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+																	<div class="carousel-inner">
+																		{% for key, value in extra_data.thumbnails.items %}
+
+																		<div class="carousel-item " data-interval="10000">
+																			<img id="id_{{key}}" style="  width: 200px;height: 400px;object-fit: cover;" src="{{value}}" class="d-block w-100" alt="thumbnails">
+																		</div>
+
+																		{% endfor %}
+
+
+																	<a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+																		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+																		<span class="sr-only">Previous</span>
+																	</a>
+																	<a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+																		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+																		<span class="sr-only">Next</span>
+																	</a>
+																</div>
+					                </ul>
+					            </div>
+							</div>
+							<div class="col-lg-7 col-md-6 col-12">
+								<div class="product-detail-main">
+									<div class="product-item-details">
+										<h1 class="product-item-name">{{data.title}}</h1>
+				                        <div class="price-box"> <span class="price">{{data.price_string}}</span>
+				                        	<!-- <del class="price old-price">$120.00</del> -->
+				                        </div>
+		                				<!-- <div class="rating-main">
+																<div class="rating-summary-block">
+					                        	<div title="53%" class="rating-result"> <span style="width:53%"></span> </div>
+					                        </div>
+					                        <span>1 Review (s)</span>
+				                        </div> -->
+				                        <div class="product-des">
+		                					<p>
+															</p>
+		                				</div>
+				                        <ul class="product-list">
+																	{% for key, value in extra_data.tags.items %}
+				                        	<li><i class="fa fa-check"></i>
+																		<b>{{key|title}}</b> - {{value|title}}
+																	 </li>
+																	{% endfor %}
+				                        </ul>
+				                        <hr class="mb-20">
+
+				                        <hr class="mb-20">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Product detail contant end -->
+
+			<section class="product-tab-part position-r pb-100">
+				<div class="container">
+					<div class="product-tab-inner">
+		                <div class="row">
+		                	<div class="col-12">
+		                		 <div id="tabs">
+			                    	<ul class="nav nav-tabs">
+				                        <li><a class="tab-Description selected" title="Description">Description</a></li>
+				                        <li><a class="tab-Review" title="Review">Maps</a></li>
+			                    	</ul>
+			                    </div>
+			                    <div id="items">
+				                    <div class="tab_content">
+				                        <ul>
+				                        	<li>
+				                            	<div class="items-Description selected">
+				                            	{{data.description}}
+				                            	</div>
+				                            </li>
+				                            <li>
+				                            	<div class="items-Tags">
+				                            		<p>{{data.thumbnails}}</p>
+				                            	</div>
+				                            </li>
+				                            <li>
+				                            	<div class="items-Review">
+				                            		<div class="comment-part">
+																					<h3 class="head-three">03 Comments</h3>
+																					<ul class="comment-list mt-30">
+																					<li>
+																						<div class="comment-user">
+																							<img src="images/comment-img1.jpg" alt="comment-img">
+																						</div>
+																						<div class="comment-detail">
+																							<span class="commenter"><span>John Doe</span> (05 Jan 2020)</span>
+																							<p>Lorem ipsum dolor sit amet adipiscing elit labore dolore that sed do eiusmod tempor labore dolore that magna aliqua. Ut enim ad minim veniam, exercitation.</p>
+																							<a href="#" class="reply-btn btn btn-color small">Reply</a>
+																						</div>
+																						<div class="clearfix"></div>
+																					</li>
+																			<li>
+																				<ul class="comment-list child-comment">
+																					<li>
+																						<div class="comment-user">
+																							<img src="images/comment-img2.jpg" alt="comment-img">
+																						</div>
+																						<div class="comment-detail">
+																							<span class="commenter"><span>John Doe</span> (12 Jan 2020)</span>
+																							<p>Lorem ipsum dolor sit amet adipiscing elit labore dolore that sed do eiusmod tempor labore dolore that magna aliqua. Ut enim ad minim veniam, exercitation.</p>
+																							<a href="#" class="reply-btn btn btn-color small">Reply</a>
+																						</div>
+																						<div class="clearfix"></div>
+																					</li>
+																					<li>
+																						<div class="comment-user">
+																							<img src="images/comment-img3.jpg" alt="comment-img">
+																						</div>
+																						<div class="comment-detail">
+																							<span class="commenter"><span>John Doe</span> (15 Jan 2020)</span>
+																							<p>Lorem ipsum dolor sit amet adipiscing elit labore dolore that sed do eiusmod tempor labore dolore that magna aliqua. Ut enim ad minim veniam, exercitation.</p>
+																							<a href="#" class="reply-btn btn btn-color small">Reply</a>
+																						</div>
+																						<div class="clearfix"></div>
+																					</li>
+																				</ul>
+																			</li>
+														</ul>
+												</div>
+													<div class="leave-comment-part pt-100">
+														<h3 class="head-three">Leave A Comment</h3>
+														<form class="main-form">
+															<div class="row">
+																<div class="col-md-4">
+																  	<div class="form-group mb-30">
+																    	<input type="text" placeholder="Name" required="">
+																  	</div>
+																</div>
+																<div class="col-md-4">
+																  	<div class="form-group mb-30">
+																    	<input type="text" placeholder="Subject" required="">
+																  	</div>
+															  	</div>
+															  	<div class="col-md-4">
+																  	<div class="form-group mb-30">
+																    	<input type="text" placeholder="Email" required="">
+																  	</div>
+															  	</div>
+															  	<div class="col-12">
+																  	<div class="form-group mb-30">
+																	    <textarea placeholder="Message" rows="5" required=""></textarea>
+																	</div>
+																</div>
+																<div class="col-12">
+															  		<button type="submit" class="btn-color">Post Comment</button>
+															  	</div>
+															</div>
+														</form>
+													</div>
+				                            	</div>
+				                            </li>
+				                        </ul>
+				                    </div>
+			                	</div>
+		                	</div>
+		                </div>
+	                </div>
+				</div>
+			</section>
+
+			<!-- Related Product Section Start -->
+			<section class="product-section pb-100">
+				<div class="container">
+					<div class="row">
+	                	<div class="col-12">
+	                    	<div class="heading-part text-center mb-30 mb-sm-20">
+	                        	<h2 class="main_title">Related Product</h2>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="position-r">
+	                	<div class="row">
+		                	<div class="product-slider owl-carousel position-initial">
+
+											{% for i in extra_data.related_products %}
+												<div class="item">
+			                		<div class="product-item">
+			                			<div class="product-image">
+			                				<div class="sale-label"><span>Sale</span></div>
+															{% if i.image.url is not None %}
+																<a href="{{i.get_absolute_url}}">
+					                				<img src="{{i.image.url}}" alt="car">
+					                			</a>
+															{% endif %}
+			                			</div>
+			                			<div class="product-details-outer">
+				                			<div class="product-details">
+				                				<div class="product-title">
+				                					<a href="product-page.html">{{i.title|title}}</a>
+				                				</div>
+				                				<div class="price-box">
+				                					<span class="price">{{i.price_string}}</span>
+				                					<!-- <del class="price old-price">$100.00</del> -->
+				                				</div>
+				                			</div>
+
+			                			</div>
+			                		</div>
+			                	</div>
+											{% endfor %}
+
+		                	</div>
+	                	</div>
+	                </div>
+				</div>
+			</section>
+
+			<style media="screen">
+			@media (max-width: 575px){
+					.inner-banner {
+						padding: 1px 0;
+					}}
+
+					.inner-banner {
+    			background: #ebebeb;
+    			padding: 15px 0 !important;
+    			text-align: center;
+					top: 2em;
+					}
+					/* @media (max-width: 991px){
+						.banner {
+						    margin-top: 1px;
+						}
+					} *
+					inner-banner {
+				    background: #ebebeb;
+				    padding: 15px 0 !important;
+				    text-align: center;
+				} */
+
+			</style>
+
+			<script type="text/javascript">
+
+					$(document).ready(function() {
+						$('.carousel-item:first-child').addClass('active');
+					});
+
+
+
+			</script>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+from modules import *
+from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from main import main
+
+from .models import Car
+from .serializers import CarSerializer
+# Create your views here.
+
+
+class CarViewSet(viewsets.ModelViewSet):
+    serializer_class = CarSerializer
+    queryset = Car.objects.all().order_by('-id')
+
+class CarDetailView(DetailView):
+    model = Car
+    context_object_name = "data"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        #context[self.pk] = timezone.now()
+        #print(context)
+        return context
+
+class CarListView(ListView):
+    """docstring for CarListView."""
+    model = Car
+    paginate_by = 120
+    queryset = Car.objects.all().order_by('-datetime')
+
+
+
